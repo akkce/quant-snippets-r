@@ -1,2 +1,2 @@
 # quant-snippets-r
-a collection of basic R scripts used for quantative development / analysis
+A collection of basic R scripts used for quantative development / analysis
