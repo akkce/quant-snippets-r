@@ -1,4 +1,4 @@
-plotMovers <- function(mdt=as.Date(Sys.Date()), display=TRUE, save=TRUE, email=FALSE) {
+plotMovers <- function(mdt=as.Date(Sys.Date()), display=TRUE, save=TRUE) {
 	
 	# verify install / load svglite - used for writing out the scalable plots
 	if( ! require(svglite) ) {
@@ -59,41 +59,6 @@ plotMovers <- function(mdt=as.Date(Sys.Date()), display=TRUE, save=TRUE, email=F
 		ggsave(paste("plots/", mdt, "-neg.svg", sep=''), p.neg, device='svg')
 	}
 
-
-
-	if ( email == TRUE ) {
-
-		ggsave(paste("plots/", mdt, "-pos.svg", sep=''), p.pos, device='svg')
-		ggsave(paste("plots/", mdt, "-neg.svg", sep=''), p.neg, device='svg')
-
-		# verify install / load RDCOMClient - used for accessing Windows COM objects from within R
-		if( ! require(RDCOMClient) ) {
-			install.packages("RDCOMClient", repos = "http://www.omegahat.net/R") 
-			library("RDCOMClient")
-		}
-
-		outlook.app <- COMCreate("Outlook.Application")
-		
-		outlook.mail <- outlook.app$CreateItem(0)
-
-		outlook.mail[["To"]] <- "kevin.elliott@alaska.gov, mark.t.moon@alaska.gov, kevin.liu@alaska.gov, stephanie.pham@alaska.gov, josh.mclin@alaska.gov, kekama.tuiofu@alaska.gov"
-		outlook.mail[["subject"]] <- "Russell 3000: Moving Stocks Plots"
-		outlook.mail[["body"]] <- paste("Attached: Good news stocks (", mdt, "-pos.svg) and bad news stocks (", mdt, "-neg.svg)", sep='')
-
-		path <- getwd()
-		path <- gsub("\\/", "\\\\", path)
-
-		outlook.mail[["Attachments"]]$Add(paste(path, "\\plots\\", mdt, "-pos.svg", sep=''))
-		outlook.mail[["Attachments"]]$Add(paste(path, "\\plots\\", mdt, "-neg.svg", sep=''))
-
-		outlook.mail$Send()
-
-		if ( save != TRUE ) {
-			file.remove(paste(path, "\\plots\\", mdt, "-pos.svg", sep=''))
-			file.remove(paste(path, "\\plots\\", mdt, "-neg.svg", sep=''))
-		}
-
-	}
-
-
+	
+	
 }
