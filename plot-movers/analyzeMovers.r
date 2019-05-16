@@ -51,7 +51,7 @@ analyzeMovers <- function(mdt=as.Date(Sys.Date())) {
 	# positive movers are in the top quantile
 	r3.movers.pos <- r3.movers[(r3.movers$rdiff > r3.movers.rdiff.q.75) & (r3.movers$rsd > r3.movers.resids.q.75), ]
 		
-	# negative movers are in the top quantile
+	# negative movers are in the bottom quantile
 	r3.movers.neg <- r3.movers[(r3.movers$rdiff < r3.movers.rdiff.q.25) & (r3.movers$rsd > r3.movers.resids.q.75), ]
 
 	return(list('posMovers'=r3.movers.pos, 'negMovers'=r3.movers.neg))
